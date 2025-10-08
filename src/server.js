@@ -4,10 +4,13 @@ import dotenv from "dotenv";
 import { initDB } from "./config/db.js";
 import rateLimiter from "./middleware/ratelimitter.js";
 import transactionsRoute from "./routes/transactionsRoute.js";
+import job from "./config/cron.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.DATABASE_PORT || 5001;
+
+if (process.env.NODE_ENV === "production") job.start();
 
 // Middleware
 app.use(
